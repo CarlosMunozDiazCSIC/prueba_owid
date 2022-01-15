@@ -5,20 +5,402 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prueba OWID</title>
-    <style>
-        * {
-            margin: 0 auto;
-        }
-        body {
-            width: 100%;
-            max-width: 940px;
-            margin: 0 auto;
-        }
-
-    </style>
+    <link rel="stylesheet" href="./main.css">
 </head>
 <body>
-    <h1>Visualización de datos de Our World in Data</h1>
-    <iframe src="https://ourworldindata.org/explorers/coronavirus-data-explorer?facet=none&Metric=Confirmed+cases&Interval=7-day+rolling+average&Relative+to+Population=true&Color+by+test+positivity=false&country=USA~ITA~CAN~DEU~GBR~FRA~SPA&hideControls=false" loading="lazy" style="width: 100%; height: 640px; border: 0px none;"></iframe>
+    <div class="b-content">
+        <div class="title">
+            <h1>Generador de <i>scatterplots</i> COVID-19</h1>
+            <h2>Laboratorio de Estadísticas Experimentales - CCHS</h2>
+        </div>
+
+        <div class="content">
+            <div class="explanations">
+                <h3>Consideraciones previas:</h3>
+                <p>Los datos son recopilados por Our World in Data. Cualquier consideración relativa a la selección de países o las variables, pueden acudir a la fuente original: <a href="https://ourworldindata.org/coronavirus" target="_blank">https://ourworldindata.org/coronavirus</a>.</p>
+                <p>Si no se selecciona ningún país o se indica de forma incorrecta una fecha, el formulario devuelve un mensaje de error.</p>
+                <p>En la selección de fechas exiten dos opciones:</p> 
+                <p>- <b>Fecha individual</b>, donde se selecciona un dato fijo (por ejemplo, la población vacunada a 13 de enero de 2022). Por defecto, se muestra la última fecha con datos;</p>
+                <p>- <b>Periodo temporal</b>, donde se seleccionan dos fechas para conocer la variación entre ambas (por ejemplo, variación de los casos totales entre el 1 de abril y el 30 de junio de 2020, que sirve para conocer cómo han aumentado los casos en ese rango temporal). Por defecto, se muestra el último día con datos y siete días antes.</p>
+                <p>El elemento de selección de fechas puede que no sea compatible <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date#browser_compatibility" target="_blank">con ciertos navegadores</a> (por ejemplo, Internet Explorer).</p>
+            </div>
+            
+            <div class="form">
+                <div class="form__countries">
+                    <h3>1. Seleccione los países y/o continentes a representar</h3>
+                    <select multiple="" id="countries" size="6">
+                        <option value="ninguno">Ninguno</option>
+                        <option value="Afghanistan">Afghanistan</option>
+                        <option value="Africa">Africa</option>
+                        <option value="Albania">Albania</option>
+                        <option value="Algeria">Algeria</option>
+                        <option value="Andorra">Andorra</option>
+                        <option value="Angola">Angola</option>
+                        <option value="Anguilla">Anguilla</option>
+                        <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+                        <option value="Argentina">Argentina</option>
+                        <option value="Armenia">Armenia</option>
+                        <option value="Aruba">Aruba</option>
+                        <option value="Asia">Asia</option>
+                        <option value="Australia">Australia</option>
+                        <option value="Austria">Austria</option>
+                        <option value="Azerbaijan">Azerbaijan</option>
+                        <option value="Bahamas">Bahamas</option>
+                        <option value="Bahrain">Bahrain</option><option value="Bangladesh">Bangladesh</option>
+                        <option value="Barbados">Barbados</option>
+                        <option value="Belarus">Belarus</option>
+                        <option value="Belgium">Belgium</option><option value="Belize">Belize</option>
+                        <option value="Benin">Benin</option><option value="Bermuda">Bermuda</option>
+                        <option value="Bhutan">Bhutan</option><option value="Bolivia">Bolivia</option>
+                        <option value="Bonaire Sint Eustatius and Saba">Bonaire Sint Eustatius and Saba</option>
+                        <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+                        <option value="Botswana">Botswana</option>
+                        <option value="Brazil">Brazil</option>
+                        <option value="British Virgin Islands">British Virgin Islands</option>
+                        <option value="Brunei">Brunei</option>
+                        <option value="Bulgaria">Bulgaria</option>
+                        <option value="Burkina Faso">Burkina Faso</option>
+                        <option value="Burundi">Burundi</option>
+                        <option value="Cambodia">Cambodia</option>
+                        <option value="Cameroon">Cameroon</option>
+                        <option value="Canada">Canada</option>
+                        <option value="Cape Verde">Cape Verde</option>
+                        <option value="Cayman Islands">Cayman Islands</option>
+                        <option value="Central African Republic">Central African Republic</option>
+                        <option value="Chad">Chad</option>
+                        <option value="Chile">Chile</option>
+                        <option value="China">China</option>
+                        <option value="Colombia">Colombia</option>
+                        <option value="Comoros">Comoros</option>
+                        <option value="Congo">Congo</option>
+                        <option value="Cook Islands">Cook Islands</option>
+                        <option value="Costa Rica">Costa Rica</option>
+                        <option value="Cote d'Ivoire">Cote d'Ivoire</option>
+                        <option value="Croatia">Croatia</option>
+                        <option value="Cuba">Cuba</option>
+                        <option value="Curacao">Curacao</option>
+                        <option value="Cyprus">Cyprus</option>
+                        <option value="Czechia">Czechia</option>
+                        <option value="Democratic Republic of Congo">Democratic Republic of Congo</option>
+                        <option value="Denmark">Denmark</option>
+                        <option value="Djibouti">Djibouti</option>
+                        <option value="Dominica">Dominica</option>
+                        <option value="Dominican Republic">Dominican Republic</option>
+                        <option value="Ecuador">Ecuador</option>
+                        <option value="Egypt">Egypt</option>
+                        <option value="El Salvador">El Salvador</option>
+                        <option value="Equatorial Guinea">Equatorial Guinea</option>
+                        <option value="Eritrea">Eritrea</option>
+                        <option value="Estonia">Estonia</option>
+                        <option value="Eswatini">Eswatini</option>
+                        <option value="Ethiopia">Ethiopia</option>
+                        <option value="Europe">Europe</option>
+                        <option value="European Union">European Union</option>
+                        <option value="Faeroe Islands">Faeroe Islands</option>
+                        <option value="Falkland Islands">Falkland Islands</option>
+                        <option value="Fiji">Fiji</option>
+                        <option value="Finland">Finland</option>
+                        <option value="France">France</option>
+                        <option value="French Polynesia">French Polynesia</option>
+                        <option value="Gabon">Gabon</option>
+                        <option value="Gambia">Gambia</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Germany">Germany</option>
+                        <option value="Ghana">Ghana</option>
+                        <option value="Gibraltar">Gibraltar</option>
+                        <option value="Greece">Greece</option>
+                        <option value="Greenland">Greenland</option>
+                        <option value="Grenada">Grenada</option>
+                        <option value="Guatemala">Guatemala</option>
+                        <option value="Guernsey">Guernsey</option>
+                        <option value="Guinea">Guinea</option>
+                        <option value="Guinea-Bissau">Guinea-Bissau</option>
+                        <option value="Guyana">Guyana</option>
+                        <option value="Haiti">Haiti</option>
+                        <option value="High income">High income</option>
+                        <option value="Honduras">Honduras</option>
+                        <option value="Hong Kong">Hong Kong</option>
+                        <option value="Hungary">Hungary</option>
+                        <option value="Iceland">Iceland</option>
+                        <option value="India">India</option>
+                        <option value="Indonesia">Indonesia</option>
+                        <option value="International">International</option>
+                        <option value="Iran">Iran</option>
+                        <option value="Iraq">Iraq</option>
+                        <option value="Ireland">Ireland</option>
+                        <option value="Isle of Man">Isle of Man</option>
+                        <option value="Israel">Israel</option>
+                        <option value="Italy">Italy</option>
+                        <option value="Jamaica">Jamaica</option>
+                        <option value="Japan">Japan</option>
+                        <option value="Jersey">Jersey</option>
+                        <option value="Jordan">Jordan</option>
+                        <option value="Kazakhstan">Kazakhstan</option>
+                        <option value="Kenya">Kenya</option>
+                        <option value="Kiribati">Kiribati</option>
+                        <option value="Kosovo">Kosovo</option>
+                        <option value="Kuwait">Kuwait</option>
+                        <option value="Kyrgyzstan">Kyrgyzstan</option>
+                        <option value="Laos">Laos</option>
+                        <option value="Latvia">Latvia</option>
+                        <option value="Lebanon">Lebanon</option>
+                        <option value="Lesotho">Lesotho</option>
+                        <option value="Liberia">Liberia</option>
+                        <option value="Libya">Libya</option>
+                        <option value="Liechtenstein">Liechtenstein</option>
+                        <option value="Lithuania">Lithuania</option>
+                        <option value="Low income">Low income</option>
+                        <option value="Lower middle income">Lower middle income</option>
+                        <option value="Luxembourg">Luxembourg</option>
+                        <option value="Macao">Macao</option>
+                        <option value="Madagascar">Madagascar</option>
+                        <option value="Malawi">Malawi</option>
+                        <option value="Malaysia">Malaysia</option>
+                        <option value="Maldives">Maldives</option>
+                        <option value="Mali">Mali</option>
+                        <option value="Malta">Malta</option>
+                        <option value="Marshall Islands">Marshall Islands</option>
+                        <option value="Mauritania">Mauritania</option>
+                        <option value="Mauritius">Mauritius</option>
+                        <option value="Mexico">Mexico</option>
+                        <option value="Micronesia (country)">Micronesia (country)</option>
+                        <option value="Moldova">Moldova</option>
+                        <option value="Monaco">Monaco</option>
+                        <option value="Mongolia">Mongolia</option>
+                        <option value="Montenegro">Montenegro</option>
+                        <option value="Montserrat">Montserrat</option>
+                        <option value="Morocco">Morocco</option>
+                        <option value="Mozambique">Mozambique</option>
+                        <option value="Myanmar">Myanmar</option>
+                        <option value="Namibia">Namibia</option>
+                        <option value="Nauru">Nauru</option>
+                        <option value="Nepal">Nepal</option>
+                        <option value="Netherlands">Netherlands</option>
+                        <option value="New Caledonia">New Caledonia</option>
+                        <option value="New Zealand">New Zealand</option>
+                        <option value="Nicaragua">Nicaragua</option>
+                        <option value="Niger">Niger</option>
+                        <option value="Nigeria">Nigeria</option>
+                        <option value="Niue">Niue</option>
+                        <option value="North America">North America</option>
+                        <option value="North Macedonia">North Macedonia</option>
+                        <option value="Northern Cyprus">Northern Cyprus</option>
+                        <option value="Norway">Norway</option>
+                        <option value="Oceania">Oceania</option>
+                        <option value="Oman">Oman</option>
+                        <option value="Pakistan">Pakistan</option>
+                        <option value="Palau">Palau</option>
+                        <option value="Palestine">Palestine</option>
+                        <option value="Panama">Panama</option>
+                        <option value="Papua New Guinea">Papua New Guinea</option>
+                        <option value="Paraguay">Paraguay</option>
+                        <option value="Peru">Peru</option>
+                        <option value="Philippines">Philippines</option>
+                        <option value="Pitcairn">Pitcairn</option>
+                        <option value="Poland">Poland</option>
+                        <option value="Portugal">Portugal</option>
+                        <option value="Qatar">Qatar</option>
+                        <option value="Romania">Romania</option>
+                        <option value="Russia">Russia</option>
+                        <option value="Rwanda">Rwanda</option>
+                        <option value="Saint Helena">Saint Helena</option>
+                        <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+                        <option value="Saint Lucia">Saint Lucia</option>
+                        <option value="Saint Pierre and Miquelon">Saint Pierre and Miquelon</option>
+                        <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+                        <option value="Samoa">Samoa</option>
+                        <option value="San Marino">San Marino</option>
+                        <option value="Sao Tome and Principe">Sao Tome and Principe</option>
+                        <option value="Saudi Arabia">Saudi Arabia</option>
+                        <option value="Senegal">Senegal</option>
+                        <option value="Serbia">Serbia</option>
+                        <option value="Seychelles">Seychelles</option>
+                        <option value="Sierra Leone">Sierra Leone</option>
+                        <option value="Singapore">Singapore</option>
+                        <option value="Sint Maarten (Dutch part)">Sint Maarten (Dutch part)</option>
+                        <option value="Slovakia">Slovakia</option>
+                        <option value="Slovenia">Slovenia</option>
+                        <option value="Solomon Islands">Solomon Islands</option>
+                        <option value="Somalia">Somalia</option>
+                        <option value="South Africa">South Africa</option>
+                        <option value="South America">South America</option>
+                        <option value="South Korea">South Korea</option>
+                        <option value="South Sudan">South Sudan</option>
+                        <option value="Spain">Spain</option>
+                        <option value="Sri Lanka">Sri Lanka</option>
+                        <option value="Sudan">Sudan</option>
+                        <option value="Suriname">Suriname</option>
+                        <option value="Sweden">Sweden</option>
+                        <option value="Switzerland">Switzerland</option>
+                        <option value="Syria">Syria</option>
+                        <option value="Taiwan">Taiwan</option>
+                        <option value="Tajikistan">Tajikistan</option>
+                        <option value="Tanzania">Tanzania</option>
+                        <option value="Thailand">Thailand</option>
+                        <option value="Timor">Timor</option>
+                        <option value="Togo">Togo</option>
+                        <option value="Tokelau">Tokelau</option>
+                        <option value="Tonga">Tonga</option>
+                        <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+                        <option value="Tunisia">Tunisia</option>
+                        <option value="Turkey">Turkey</option>
+                        <option value="Turkmenistan">Turkmenistan</option>
+                        <option value="Turks and Caicos Islands">Turks and Caicos Islands</option>
+                        <option value="Tuvalu">Tuvalu</option>
+                        <option value="Uganda">Uganda</option>
+                        <option value="Ukraine">Ukraine</option>
+                        <option value="United Arab Emirates">United Arab Emirates</option>
+                        <option value="United Kingdom">United Kingdom</option>
+                        <option value="United States">United States</option>
+                        <option value="Upper middle income">Upper middle income</option>
+                        <option value="Uruguay">Uruguay</option>
+                        <option value="Uzbekistan">Uzbekistan</option>
+                        <option value="Vanuatu">Vanuatu</option>
+                        <option value="Vatican">Vatican</option>
+                        <option value="Venezuela">Venezuela</option>
+                        <option value="Vietnam">Vietnam</option>
+                        <option value="Wallis and Futuna">Wallis and Futuna</option>
+                        <option value="World">World</option>
+                        <option value="Yemen">Yemen</option>
+                        <option value="Zambia">Zambia</option>
+                        <option value="Zimbabwe">Zimbabwe</option>
+                    </select>
+                    <p>Los países y/o continentes seleccionados hasta el momento son: </p>
+                    <p id="countries_selected"></p>
+                </div>
+                <div class="form__xaxis">
+                    <h3>2. Seleccione la variable del eje X y la/s fecha/s deseada/s</h3>
+                    <select name="variable_x" id="variable_x">
+                        <option value="total_cases">Casos totales</option>
+                        <option value="new_cases">Nuevos casos diarios</option>
+                        <option value="new_cases_smoothed">Nuevos casos diarios (suavizado)</option>
+                        <option value="total_deaths">Muertes totales</option>
+                        <option value="new_deaths">Muertes diarias</option>
+                        <option value="new_deaths_smoothed">Muertes diarias (suavizado)</option>
+                        <option value="total_cases_per_million">Casos totales por millón de habitantes</option>
+                        <option value="new_cases_per_million">Nuevos casos diarios por millón de habitantes</option>
+                        <option value="new_cases_smoothed_per_million">Nuevos casos diarios por millón de habitantes (suavizado)</option>
+                        <option value="total_deaths_per_million">Muertes totales por millón de habitantes</option>
+                        <option value="new_deaths_per_million">Muertes diarias por millón de habitantes</option>
+                        <option value="new_deaths_smoothed_per_million">Muertes diarias por millón de habitantes (suavizado)</option>
+                        <option value="reproduction_rate">Ratio de reproducción</option>
+                        <option value="icu_patients">Pacientes UCI</option>
+                        <option value="icu_patientes_per_million">Pacientes UCI por millón de habitantes</option>
+                        <option value="hosp_patients">Pacientes en hospital</option>
+                        <option value="hosp_patients_per_million">Pacientes en hospital por millón de habitantes</option>
+                        <option value="weekly_icu_admissions">Admisiones semanales en UCI</option>
+                        <option value="weekly_uci_admissions_per_million">Admisiones semanales en UCI por millón de habitantes</option>
+                        <option value="weekly_hosp_admissions">Admisiones semanales en hospital</option>
+                        <option value="weekly_hosp_admissions_per_million">Admisiones semanales en hospital por millón de habitantes</option>
+                        <option value="people_vaccinated">Población vacunada</option>
+                        <option value="people_fully_vaccinated">Población con dosis completa</option>
+                        <option value="people_vaccinated_per_hundred">Población vacunada por cada cien habitantes</option>
+                        <option value="people_fully_vaccinated_per_hundred">Población con dosis completa por cada cien habitantes</option>
+                        <option value="new_people_vaccinated_smoothed">Nueva población vacunada diaria (suavizado)</option>
+                        <option value="new_people_vaccinated_smoothed_per_hundred">Nueva población vacunada diaria (suavizado) por cada cien habitantes</option>
+                        <option value="population">Población</option>
+                        <option value="population_density">Densidad de población</option>
+                        <option value="median_age">Edad mediana</option>
+                        <option value="aged_65_older">Población con 65 y más años</option>
+                        <option value="stringency_index">Índice de rigurosidad (de respuesta gubernamental al COVID-19)</option>
+                        <option value="life_expectancy">Esperanza de vida</option>
+                        <option value="human_development_index">Índice de Desarrollo Humano (IDH)</option>
+                    </select>
+                    <div class="date__logics">
+                        <div class="date__logics--radio">
+                            <input type="radio" id="static_xaxis" name="date_xaxis" value="static" checked>
+                            <label for="static">Fecha estática</label>
+                            <input type="radio" id="period_xaxis" name="date_xaxis" value="period">
+                            <label for="period">Periodo temporal</label>
+                        </div>
+                        <div class="date__logics--picker">
+                            <div class="static-picker visible">
+                                <input type="date" id="xaxis_static" name="xaxis_static" value="2022-01-15" min="2020-02-24" max="2022-01-15">
+                            </div>
+                            <div class="period-picker">
+                                <span>Evolución entre</span>
+                                <input type="date" id="xaxis_period_1" name="xaxis_period_1" value="2022-01-08" min="2020-02-24" max="2022-01-15">
+                                <span>y</span>
+                                <input type="date" id="xaxis_period_2" name="xaxis_period_2" value="2022-01-15" min="2020-02-24" max="2022-01-15">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form__yaxis">
+                    <h3>3. Seleccione la variable del eje Y y la/s fecha/s deseada/s</h3>
+                    <select name="variable_y" id="variable_y">
+                        <option value="total_cases">Casos totales</option>
+                        <option value="new_cases">Nuevos casos diarios</option>
+                        <option value="new_cases_smoothed">Nuevos casos diarios (suavizado)</option>
+                        <option value="total_deaths">Muertes totales</option>
+                        <option value="new_deaths">Muertes diarias</option>
+                        <option value="new_deaths_smoothed">Muertes diarias (suavizado)</option>
+                        <option value="total_cases_per_million">Casos totales por millón de habitantes</option>
+                        <option value="new_cases_per_million">Nuevos casos diarios por millón de habitantes</option>
+                        <option value="new_cases_smoothed_per_million">Nuevos casos diarios por millón de habitantes (suavizado)</option>
+                        <option value="total_deaths_per_million">Muertes totales por millón de habitantes</option>
+                        <option value="new_deaths_per_million">Muertes diarias por millón de habitantes</option>
+                        <option value="new_deaths_smoothed_per_million">Muertes diarias por millón de habitantes (suavizado)</option>
+                        <option value="reproduction_rate">Ratio de reproducción</option>
+                        <option value="icu_patients">Pacientes UCI</option>
+                        <option value="icu_patientes_per_million">Pacientes UCI por millón de habitantes</option>
+                        <option value="hosp_patients">Pacientes en hospital</option>
+                        <option value="hosp_patients_per_million">Pacientes en hospital por millón de habitantes</option>
+                        <option value="weekly_icu_admissions">Admisiones semanales en UCI</option>
+                        <option value="weekly_uci_admissions_per_million">Admisiones semanales en UCI por millón de habitantes</option>
+                        <option value="weekly_hosp_admissions">Admisiones semanales en hospital</option>
+                        <option value="weekly_hosp_admissions_per_million">Admisiones semanales en hospital por millón de habitantes</option>
+                        <option value="people_vaccinated">Población vacunada</option>
+                        <option value="people_fully_vaccinated">Población con dosis completa</option>
+                        <option value="people_vaccinated_per_hundred">Población vacunada por cada cien habitantes</option>
+                        <option value="people_fully_vaccinated_per_hundred">Población con dosis completa por cada cien habitantes</option>
+                        <option value="new_people_vaccinated_smoothed">Nueva población vacunada diaria (suavizado)</option>
+                        <option value="new_people_vaccinated_smoothed_per_hundred">Nueva población vacunada diaria (suavizado) por cada cien habitantes</option>
+                        <option value="population">Población</option>
+                        <option value="population_density">Densidad de población</option>
+                        <option value="median_age">Edad mediana</option>
+                        <option value="aged_65_older">Población con 65 y más años</option>
+                        <option value="stringency_index">Índice de rigurosidad (de respuesta gubernamental al COVID-19)</option>
+                        <option value="life_expectancy">Esperanza de vida</option>
+                        <option value="human_development_index">Índice de Desarrollo Humano (IDH)</option>
+                    </select>
+                    <div class="date__logics">
+                        <div class="date__logics--radio">
+                            <input type="radio" id="static_yaxis" name="date_yaxis" value="static" checked>
+                            <label for="static">Fecha estática</label>
+                            <input type="radio" id="period_yaxis" name="date_yaxis" value="period">
+                            <label for="period">Periodo temporal</label>
+                        </div>
+                        <div class="date__logics--picker">
+                            <div class="static-picker visible">
+                                <input type="date" id="yaxis_static" name="yaxis_static" value="2022-01-15" min="2020-02-24" max="2022-01-15">
+                            </div>
+                            <div class="period-picker">
+                                <span>Evolución entre</span>
+                                <input type="date" id="yaxis_period_1" name="yaxis_period_1" value="2022-01-08" min="2020-02-24" max="2022-01-15">
+                                <span>y</span>
+                                <input type="date" id="yaxis_period_2" name="yaxis_period_2" value="2022-01-15" min="2020-02-24" max="2022-01-15">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn" id="setChart">
+                    Generar visualización
+                </button>
+            </div>
+        
+            <div class="results">
+                <div class="error-message"></div>
+                <div class="b-chart"></div>
+            </div>
+        </div>       
+    </div>
+    
+    <div class="loading style">
+        <div class="loading-wheel"></div>
+    </div>
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="./main.js"></script>
 </body>
 </html>
