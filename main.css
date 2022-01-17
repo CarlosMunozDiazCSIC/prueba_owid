@@ -152,7 +152,9 @@ select {
 .results {
     width: 100%;
     height: auto;
+}
 
+.results .c-chart, .results .b-error {
     display: none;
 }
 
@@ -160,7 +162,7 @@ select {
     color: red;
 }
 
-.results .b-chart {
+.results .c-chart {
     margin-bottom: 8px;
 }
 
@@ -189,6 +191,10 @@ select {
     line-height: 10px;
 
     color: #A3A3A3;
+}
+
+.data-source {
+    margin-bottom: 8px;
 }
 
 .results .elements {

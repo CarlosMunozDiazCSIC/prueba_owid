@@ -121,9 +121,9 @@ d3.csv(data, function(error, data) {
         //Validación de elementos del formulario
         let formValidated = setValidation();
 
-        document.getElementsByClassName('results')[0].style.display = 'block';
-
         if(formValidated) {
+            document.getElementsByClassName('c-chart')[0].style.display = 'block';
+
             let auxData = setAuxData();      
             setChart(auxData);
 
@@ -134,6 +134,8 @@ d3.csv(data, function(error, data) {
             document.getElementById('chartAsData').addEventListener('click', function() {
                 setChartAsData(auxData);
             });
+        } else {
+            document.getElementsByClassName('b-error')[0].style.display = 'block';
         }        
     }
 
@@ -165,6 +167,14 @@ d3.csv(data, function(error, data) {
     function setValidation() {
         let formValidated = true;
 
+        //Borrado previo
+        let currentError = document.getElementsByClassName('b-error')[0];
+
+        while(currentError.hasChildNodes()) {
+            currentError.removeChild(currentError.firstChild);
+        }
+
+        //Proceso
         if (countriesSelected.length == 0) {
             let p = document.createElement('p');
             p.textContent = 'Ningún país ha sido seleccionado';
