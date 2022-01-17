@@ -6,17 +6,21 @@ body {
     max-width: 940px;
     margin: 0 auto;
 }
+.content {
+    position: relative;
+    min-height: 600px;
+}
 
 /* Overlay (mientras cargan datos) */
 .loading {
     width: 100%;
     height: 100%;
-    position: fixed;
+    position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: rgba(0,0,0,.35);
+    background-color: rgba(0,0,0,.15);
 }
 
 .loading-wheel {
@@ -45,18 +49,18 @@ body {
         -webkit-transform: rotate(0);
     }
     100% {
-        -webkit-transform: rotate(-360deg);
+        -webkit-transform: rotate(360deg);
     }
 }
 
 /* Contenido */
-.content {
+.content-first {
     display: none;
 }
 
 p {
     font-size: 16px;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 
 .title {
@@ -64,12 +68,32 @@ p {
     margin-bottom: 16px;
 }
 
+/* Consideraciones previas */
 .explanations {
+    position: relative;
+
     box-sizing: border-box;
     width: 100%;
-    padding: 8px;
+    padding: 8px 8px 30px 8px;
     background-color: #ffebeb;
+
+    border-radius: 6px 6px 0 0;
+
     margin-bottom: 12px;
+}
+
+#showMore {
+    display: none;    
+}
+
+.btn__show-more {
+    position: absolute;
+    cursor: pointer;
+
+    width: 100%;
+    height: 28px;
+    bottom: 0px;
+    left: 0px;
 }
 
 /* Formulario */
@@ -107,7 +131,7 @@ select {
 
 .btn {
     display: block;
-    padding: 12px;
+    padding: 6px;
     background-color:#4e7e7e;
     border: 0.16em solid rgba(255,255,255,0);
     border-radius: 5px;
@@ -132,7 +156,53 @@ select {
     display: none;
 }
 
+.results .b-error {
+    color: red;
+}
+
+.results .b-chart {
+    margin-bottom: 8px;
+}
+
 .results .b-chart .chart {
     width: 100%;
-    height: 350px;
+    height: 375px;
+
+    margin-bottom: 4px;
+}
+
+.chart__x-axis, .chart__y-axis {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.chart__x-axis {
+    display: block;
+    text-align: center;
+
+    margin-bottom: 4px;
+}
+
+.chart .tick text {
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 10px;
+
+    color: #A3A3A3;
+}
+
+.results .elements {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+
+    width: 100%;
+    height: auto;
+}
+
+@media only screen and (max-width: 940px) {
+    body {
+        box-sizing: border-box;
+        padding: 0px 16px;
+    }
 }
