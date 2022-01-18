@@ -354,6 +354,12 @@ d3.csv(data, function(error, data) {
             }
         }
 
+        if(dataFinal.length != auxFinal) {
+            let p = document.createElement('p');
+            p.textContent = 'Es posible que algunos de los elementos no se visualicen debido a que no disponen de datos para la fecha seleccionada.';
+            document.getElementsByClassName('possible-error')[0].appendChild(p);
+        }
+
         let margin = {top: 20, right: 70, bottom: 20, left: 70},
             width = document.getElementById('chart').clientWidth - margin.left - margin.right,
             height = document.getElementById('chart').clientHeight - margin.top - margin.bottom;
