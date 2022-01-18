@@ -344,6 +344,13 @@ d3.csv(data, function(error, data) {
             currentChart.removeChild(currentChart.firstChild);
         }
 
+        //Borramos el problema existente (si lo hubiese)
+        let currentProblem = document.getElementsByClassName('possible-error')[0];
+
+        while(currentProblem.hasChildNodes()) {
+            currentProblem.removeChild(currentProblem.firstChild);
+        }
+
         //Visualizamos el nuevo gráfico
         let auxFinal = [];
 
@@ -355,13 +362,6 @@ d3.csv(data, function(error, data) {
         }
 
         if(dataFinal.length != auxFinal.length) {
-            //Borramos el problema existente
-            let currentProblem = document.getElementsByClassName('possible-error')[0];
-
-            while(currentProblem.hasChildNodes()) {
-                currentProblem.removeChild(currentProblem.firstChild);
-            }
-
             let p = document.createElement('p');
             p.textContent = 'Es posible que algunos de los elementos seleccionados no se visualicen debido a que no disponen de datos para la fecha seleccionada.';
             document.getElementsByClassName('possible-error')[0].appendChild(p);
