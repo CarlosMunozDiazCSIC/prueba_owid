@@ -197,6 +197,10 @@ select {
     margin-bottom: 8px;
 }
 
+.possible-error {
+    color: red;
+}
+
 .results .elements {
     display: flex;
     justify-content: space-between;

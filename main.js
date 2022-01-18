@@ -368,7 +368,7 @@ d3.csv(data, function(error, data) {
         //Eje X
         let x = d3.scaleLinear()
             .domain([
-                d3.min(dataFinal.map(function(item){
+                d3.min(auxFinal.map(function(item){
                     if(item.dataX < 200) {
                         return item.dataX - 10;
                     } else if (item.dataX >= 200 && item.dataX < 2000) {
@@ -381,7 +381,7 @@ d3.csv(data, function(error, data) {
                         return item.dataX - 100000;
                     }
                 })),
-                d3.max(dataFinal.map(function(item) {
+                d3.max(auxFinal.map(function(item) {
                     if(item.dataX < 200) {
                         return item.dataX + 10;
                     } else if (item.dataX >= 200 && item.dataX < 2000) {
@@ -405,7 +405,7 @@ d3.csv(data, function(error, data) {
         //Eje Y
         let y = d3.scaleLinear()
             .domain([
-                d3.min(dataFinal.map(function(item){
+                d3.min(auxFinal.map(function(item){
                     if(item.dataY < 200) {
                         return item.dataY - 10;
                     } else if (item.dataY >= 200 && item.dataY < 2000) {
@@ -418,7 +418,7 @@ d3.csv(data, function(error, data) {
                         return item.dataY - 100000;
                     }
                 })),
-                d3.max(dataFinal.map(function(item) {
+                d3.max(auxFinal.map(function(item) {
                     if(item.dataY < 200) {
                         return item.dataY + 10;
                     } else if (item.dataY >= 200 && item.dataY < 2000) {
