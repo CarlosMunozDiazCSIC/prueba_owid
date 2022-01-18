@@ -354,7 +354,7 @@ d3.csv(data, function(error, data) {
             }
         }
 
-        if(dataFinal.length != auxFinal) {
+        if(dataFinal.length != auxFinal.length) {
             let p = document.createElement('p');
             p.textContent = 'Es posible que algunos de los elementos no se visualicen debido a que no disponen de datos para la fecha seleccionada.';
             document.getElementsByClassName('possible-error')[0].appendChild(p);
