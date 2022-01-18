@@ -322,7 +322,7 @@ d3.csv(data, function(error, data) {
             for(let i = 0; i < yAxisData.length; i+=2) {
                 let data1 = yAxisData[i].data, data2 = yAxisData[i+1].data;
                 let result = ((data2 - data1) / data1) * 100;
-                xAxisDataFinal.push({country: yAxisData[i].country, country_iso: yAxisData[i].country_iso, data : result});
+                yAxisDataFinal.push({country: yAxisData[i].country, country_iso: yAxisData[i].country_iso, data : result});
             }
         } else {
             yAxisDataFinal = [...yAxisData];
@@ -361,116 +361,127 @@ d3.csv(data, function(error, data) {
             }
         }
 
-        if(dataFinal.length != auxFinal.length) {
+        if(auxFinal.length == 0) {
             let p = document.createElement('p');
-            p.textContent = 'Es posible que algunos de los elementos seleccionados no se visualicen debido a que no disponen de datos para la fecha seleccionada.';
+            p.textContent = 'Ningún elemento seleccionado dispone de datos para alguna de las variables y/o fechas seleccionadas. Pruebe con otras variables y/o fechas.';
             document.getElementsByClassName('possible-error')[0].appendChild(p);
-        }
 
-        let margin = {top: 20, right: 70, bottom: 20, left: 70},
+            //Bloqueamos la aparición de cualquier elemento del gráfico
+            document.getElementsByClassName('b-chart')[0].style.display = 'none';
+        } else {
+            if (dataFinal.length != auxFinal.length) {
+                let p = document.createElement('p');
+                p.textContent = 'Es posible que algunos de los elementos seleccionados no se visualicen debido a que no disponen de datos para la fecha seleccionada.';
+                document.getElementsByClassName('possible-error')[0].appendChild(p);
+            }
+
+            document.getElementsByClassName('b-chart')[0].style.display = 'block';
+
+            let margin = {top: 20, right: 70, bottom: 20, left: 70},
             width = document.getElementById('chart').clientWidth - margin.left - margin.right,
             height = document.getElementById('chart').clientHeight - margin.top - margin.bottom;
 
-        let svg = d3.select("#chart")
-            .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            let svg = d3.select("#chart")
+                .append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        //Eje X
-        let x = d3.scaleLinear()
-            .domain([
-                d3.min(auxFinal.map(function(item){
-                    if(item.dataX < 200) {
-                        return item.dataX - 10;
-                    } else if (item.dataX >= 200 && item.dataX < 2000) {
-                        return item.dataX - 100;
-                    } else if (item.dataX >= 2000 && item.dataX < 20000) {
-                        return item.dataX - 1000;
-                    } else if(item.dataX >= 20000 && item.dataX < 200000) {
-                        return item.dataX - 10000;
-                    } else {
-                        return item.dataX - 100000;
-                    }
-                })),
-                d3.max(auxFinal.map(function(item) {
-                    if(item.dataX < 200) {
-                        return item.dataX + 10;
-                    } else if (item.dataX >= 200 && item.dataX < 2000) {
-                        return item.dataX + 100;
-                    } else if (item.dataX >= 2000 && item.dataX < 20000) {
-                        return item.dataX + 1000;
-                    } else if(item.dataX >= 20000 && item.dataX < 200000) {
-                        return item.dataX + 10000;
-                    } else {
-                        return item.dataX + 100000;
-                    }
-                }))
-            ])
-            .range([0, width])
-            .nice();
-        
-        svg.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x).ticks(5));
+            //Eje X
+            let x = d3.scaleLinear()
+                .domain([
+                    d3.min(auxFinal.map(function(item){
+                        if(item.dataX < 200) {
+                            return item.dataX - 10;
+                        } else if (item.dataX >= 200 && item.dataX < 2000) {
+                            return item.dataX - 100;
+                        } else if (item.dataX >= 2000 && item.dataX < 20000) {
+                            return item.dataX - 1000;
+                        } else if(item.dataX >= 20000 && item.dataX < 200000) {
+                            return item.dataX - 10000;
+                        } else {
+                            return item.dataX - 100000;
+                        }
+                    })),
+                    d3.max(auxFinal.map(function(item) {
+                        if(item.dataX < 200) {
+                            return item.dataX + 10;
+                        } else if (item.dataX >= 200 && item.dataX < 2000) {
+                            return item.dataX + 100;
+                        } else if (item.dataX >= 2000 && item.dataX < 20000) {
+                            return item.dataX + 1000;
+                        } else if(item.dataX >= 20000 && item.dataX < 200000) {
+                            return item.dataX + 10000;
+                        } else {
+                            return item.dataX + 100000;
+                        }
+                    }))
+                ])
+                .range([0, width])
+                .nice();
+            
+            svg.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x).ticks(5));
 
-        //Eje Y
-        let y = d3.scaleLinear()
-            .domain([
-                d3.min(auxFinal.map(function(item){
-                    if(item.dataY < 200) {
-                        return item.dataY - 10;
-                    } else if (item.dataY >= 200 && item.dataY < 2000) {
-                        return item.dataY - 100;
-                    } else if (item.dataY >= 2000 && item.dataY < 20000) {
-                        return item.dataY - 1000;
-                    } else if(item.dataY >= 20000 && item.dataY < 200000) {
-                        return item.dataY - 10000;
-                    } else {
-                        return item.dataY - 100000;
-                    }
-                })),
-                d3.max(auxFinal.map(function(item) {
-                    if(item.dataY < 200) {
-                        return item.dataY + 10;
-                    } else if (item.dataY >= 200 && item.dataY < 2000) {
-                        return item.dataY + 100;
-                    } else if (item.dataY >= 2000 && item.dataY < 20000) {
-                        return item.dataY + 1000;
-                    } else if(item.dataY >= 20000 && item.dataY < 200000) {
-                        return item.dataY + 10000;
-                    } else {
-                        return item.dataY + 100000;
-                    }
-                }))
-            ])
-            .range([height, 0])
-            .nice();
-        
-        svg.append("g")
-            .call(d3.axisLeft(y).ticks(5));
+            //Eje Y
+            let y = d3.scaleLinear()
+                .domain([
+                    d3.min(auxFinal.map(function(item){
+                        if(item.dataY < 200) {
+                            return item.dataY - 10;
+                        } else if (item.dataY >= 200 && item.dataY < 2000) {
+                            return item.dataY - 100;
+                        } else if (item.dataY >= 2000 && item.dataY < 20000) {
+                            return item.dataY - 1000;
+                        } else if(item.dataY >= 20000 && item.dataY < 200000) {
+                            return item.dataY - 10000;
+                        } else {
+                            return item.dataY - 100000;
+                        }
+                    })),
+                    d3.max(auxFinal.map(function(item) {
+                        if(item.dataY < 200) {
+                            return item.dataY + 10;
+                        } else if (item.dataY >= 200 && item.dataY < 2000) {
+                            return item.dataY + 100;
+                        } else if (item.dataY >= 2000 && item.dataY < 20000) {
+                            return item.dataY + 1000;
+                        } else if(item.dataY >= 20000 && item.dataY < 200000) {
+                            return item.dataY + 10000;
+                        } else {
+                            return item.dataY + 100000;
+                        }
+                    }))
+                ])
+                .range([height, 0])
+                .nice();
+            
+            svg.append("g")
+                .call(d3.axisLeft(y).ticks(5));
 
-        node = svg.append('g');
-        
-        //Dots
-        node.selectAll("dot")
-            .data(auxFinal)
-            .enter()
-            .append("circle")
-            .attr("cx", function (d) { return x(d.dataX); })
-            .attr("cy", function (d) { return y(d.dataY); })
-            .attr("r", 4.5)
-            .style("fill", "#4e7e7e");
+            node = svg.append('g');
+            
+            //Dots
+            node.selectAll("dot")
+                .data(auxFinal)
+                .enter()
+                .append("circle")
+                .attr("cx", function (d) { return x(d.dataX); })
+                .attr("cy", function (d) { return y(d.dataY); })
+                .attr("r", 4.5)
+                .style("fill", "#4e7e7e");
 
-        //Texto
-        node.selectAll('text')
-            .data(auxFinal)
-            .enter()
-            .append('text')
-            .attr("x", function(d) { return x(d.dataX) + 1.5; })
-            .attr("y", function(d) { return y(d.dataY) - 8.5; })
-            .text(function(d) { return d.country_iso; });    
+            //Texto
+            node.selectAll('text')
+                .data(auxFinal)
+                .enter()
+                .append('text')
+                .attr("x", function(d) { return x(d.dataX) + 1.5; })
+                .attr("y", function(d) { return y(d.dataY) - 8.5; })
+                .text(function(d) { return d.country_iso; });
+        }            
     }
 
     function setChartAsImage() {
