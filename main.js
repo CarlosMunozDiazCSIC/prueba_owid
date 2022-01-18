@@ -367,22 +367,76 @@ d3.csv(data, function(error, data) {
 
         //Eje X
         let x = d3.scaleLinear()
-            .domain(d3.extent(dataFinal.map(function (item) {return item.dataX;})))
+            .domain([
+                d3.min(dataFinal.map(function(item){
+                    if(item.dataX < 200) {
+                        return item.dataX - 10;
+                    } else if (item.dataX >= 200 && item.dataX < 2000) {
+                        return item.dataX - 100;
+                    } else if (item.dataX >= 2000 && item.dataX < 20000) {
+                        return item.dataX - 1000;
+                    } else if(item.dataX >= 20000 && item.dataX < 200000) {
+                        return item.dataX - 10000;
+                    } else {
+                        return item.dataX - 100000;
+                    }
+                })),
+                d3.max(dataFinal.map(function(item) {
+                    if(item.dataX < 200) {
+                        return item.dataX + 10;
+                    } else if (item.dataX >= 200 && item.dataX < 2000) {
+                        return item.dataX + 100;
+                    } else if (item.dataX >= 2000 && item.dataX < 20000) {
+                        return item.dataX + 1000;
+                    } else if(item.dataX >= 20000 && item.dataX < 200000) {
+                        return item.dataX + 10000;
+                    } else {
+                        return item.dataX + 100000;
+                    }
+                }))
+            ])
             .range([0, width])
             .nice();
         
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x));
+            .call(d3.axisBottom(x).ticks(5));
 
         //Eje Y
         let y = d3.scaleLinear()
-            .domain(d3.extent(dataFinal.map(function (item) {return item.dataY;})))
+            .domain([
+                d3.min(dataFinal.map(function(item){
+                    if(item.dataY < 200) {
+                        return item.dataY - 10;
+                    } else if (item.dataY >= 200 && item.dataY < 2000) {
+                        return item.dataY - 100;
+                    } else if (item.dataY >= 2000 && item.dataY < 20000) {
+                        return item.dataY - 1000;
+                    } else if(item.dataY >= 20000 && item.dataY < 200000) {
+                        return item.dataY - 10000;
+                    } else {
+                        return item.dataY - 100000;
+                    }
+                })),
+                d3.max(dataFinal.map(function(item) {
+                    if(item.dataY < 200) {
+                        return item.dataY + 10;
+                    } else if (item.dataY >= 200 && item.dataY < 2000) {
+                        return item.dataY + 100;
+                    } else if (item.dataY >= 2000 && item.dataY < 20000) {
+                        return item.dataY + 1000;
+                    } else if(item.dataY >= 20000 && item.dataY < 200000) {
+                        return item.dataY + 10000;
+                    } else {
+                        return item.dataY + 100000;
+                    }
+                }))
+            ])
             .range([height, 0])
             .nice();
         
         svg.append("g")
-            .call(d3.axisLeft(y));
+            .call(d3.axisLeft(y).ticks(5));
 
         node = svg.append('g');
         
